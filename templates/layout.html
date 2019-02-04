@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">Bookify</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+        <div class="navbar-nav ">
+          {% if session.u_id %}
+          <a class="nav-item nav-link" href="#">Search</a>
+          <a class="nav-item nav-link" href="#">Log Out</a>
+          {% else %}
+          <a class="nav-item nav-link" href="/">Sign In</a>
+          <a class="nav-item nav-link" href={{url_for('register')}}>Register</a>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+  </header>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class="alert-success">
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<p>Session: {{session.u_id}}</p>
+    {% block body %}
+
+
+    {% endblock %}
+
+</body>
+
+</html>

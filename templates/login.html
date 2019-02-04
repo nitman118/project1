@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block title %}
+Welcome
+{% endblock%}
+
+
+{% block body %}
+<div class="container border">
+  <form class="" action={{url_for('login')}} method="post">
+    <div class="form-row">
+      <div class="col">
+        <div class="form-group">
+          <label for="uid">Username</label>
+          <input type="text" class="form-control" id="uid" placeholder="Enter Username" name="username" value="" autofocus>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="pass">Password</label>
+          <input type="password" class="form-control" id="pass" placeholder="Enter Password" name="password" value="">
+        </div>
+      </div>
+    </div>
+    <button type="submit" name="submit_login" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+{% endblock %}
