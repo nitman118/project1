@@ -1,4 +1,5 @@
 import os
+import requests
 
 from flask import Flask, session, render_template,request,flash,redirect, url_for
 from flask_session import Session
@@ -64,9 +65,6 @@ def search():
     elif request.method=="POST":
         radioOpt = request.form.get("inlineRadioOptions")
         return radioOpt
-
-
-
 
 
 
