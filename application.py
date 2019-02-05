@@ -63,9 +63,20 @@ def search():
         return render_template("search.html")
 
     elif request.method=="POST":
+        keyword = request.form.get("keyword")
+        keyword="%"+keyword+"%"
+        keyword=keyword.upper()
         radioOpt = request.form.get("inlineRadioOptions")
-        return radioOpt
+        if radioOpt=="option1":
+            searchResults = db.execute("SELECT * FROM books WHERE UPPER(title) LIKE :title ORDER BY year DESC",{"title":keyword}).fetchall()
+        elif radioOpt=="option2":
+            searchResults = db.execute("SELECT * FROM books WHERE UPPER(author) LIKE :author ORDER BY year DESC",{"author":keyword}).fetchall()
+        elif radioOpt=="option3":
+            searchResults = db.execute("SELECT * FROM books WHERE year = :year ORDER BY author ASC",{"year":int(keyword.strip('%'))}).fetchall()
+        elif radioOpt=="option4":
+            searchResults = db.execute("SELECT * FROM books WHERE isbn LIKE :isbn ORDER BY year DESC",{"isbn":keyword}).fetchall()
 
+        return render_template("searchResult.html", searchResults=searchResults)
 
 
 @app.route("/error")
