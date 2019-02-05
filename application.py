@@ -83,13 +83,17 @@ def search():
 @app.route("/search_result/<isbn>")
 def bookDetails(isbn):
     #create a connection
-    try:
-        res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": goodreadsDevKey, "isbns": isbn})
-        print(res.json())
-        return str(res.json())
-    except:
+    res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": goodreadsDevKey, "isbns": isbn})
+    if res is None:
         return redirect(url_for('error'))
-    
+    json_data=res.json()["books"][0]
+    book=db.execute("SELECT * FROM books WHERE isbn = :isbn ORDER BY year DESC",{"isbn":isbn}).fetchone()
+    #implement reviews
+
+    return render_template("book.html",book=book, json_data=json_data)
+
+
+
 
 @app.route("/error")
 def error():

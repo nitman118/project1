@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% block title %}
+Welcome
+{% endblock%}
+
+
+
+{% block body %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-6">
+      <h1>{{book.title}}</h1>
+      <h4>By {{book.author}}</h4>
+      <h5>Publication Year: {{book.year}}</h5>
+      <h5>ISBN: {{book.isbn}}</h5>
+      <br>
+      <p>This book was rated {{json_data["average_rating"]}} by {{json_data["work_ratings_count"]}} people on <a href="https://www.goodreads.com/">goodreads</a></p>
+
+    </div>
+    <div class="col-lg-6">
+      <div class="container border">
+        <form action={{url_for('bookDetails', isbn=book.isbn)}} method="post">
+          Your rating
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked>
+            <label class="form-check-label" for="inlineRadio1">1</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+            <label class="form-check-label" for="inlineRadio2">2</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+            <label class="form-check-label" for="inlineRadio3">3</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option4">
+            <label class="form-check-label" for="inlineRadio4">4</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option5">
+            <label class="form-check-label" for="inlineRadio4">5</label>
+          </div>
+          <div class="form-group my-4">
+            <label for="exampleFormControlTextarea1">Your review</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name="review"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" name="button">Submit</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

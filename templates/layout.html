@@ -17,7 +17,7 @@
       <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
         <div class="navbar-nav ">
           {% if session.u_id %}
-          <a class="nav-item nav-link" href="#">Search</a>
+          <a class="nav-item nav-link" href="{{url_for('search')}}">Search</a>
           <a class="nav-item nav-link" href="#">Log Out</a>
           {% else %}
           <a class="nav-item nav-link" href="/">Sign In</a>
