@@ -1,7 +1,7 @@
 import os
 import requests
 
-from flask import Flask, session, render_template,request,flash,redirect, url_for
+from flask import Flask, session, render_template,request,flash,redirect, url_for,abort
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -11,6 +11,8 @@ app = Flask(__name__)
 # Check for environment variable
 if not os.getenv("DATABASE_URL"):
     raise RuntimeError("DATABASE_URL is not set")
+
+goodreadsDevKey="9k8LxnWmW5tXr6hd7iHQ"
 
 # Configure session to use filesystem
 app.config["SESSION_PERMANENT"] = False
@@ -78,7 +80,17 @@ def search():
 
         return render_template("searchResult.html", searchResults=searchResults)
 
+@app.route("/search_result/<isbn>")
+def bookDetails(isbn):
+    #create a connection
+    try:
+        res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": goodreadsDevKey, "isbns": isbn})
+        print(res.json())
+        return str(res.json())
+    except:
+        return redirect(url_for('error'))
+    
 
 @app.route("/error")
 def error():
-    return "Error"
+    return abort(404)

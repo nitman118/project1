@@ -18,7 +18,7 @@ Search Result
 
       {% for book in searchResults %}
       <tr>
-        <th scope="row">{{book.isbn}}</th>
+        <th scope="row"><a href="{{url_for('bookDetails', isbn=book.isbn)}}">{{book.isbn}}</a></th>
         <td>{{book.title}}</td>
         <td>{{book.author}}</td>
         <td>{{book.year}}</td>
