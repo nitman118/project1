@@ -8,6 +8,17 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 
 app = Flask(__name__)
 
+# Ensure templates are auto-reloaded
+app.config["TEMPLATES_AUTO_RELOAD"] = True
+
+# Ensure responses aren't cached
+@app.after_request
+def after_request(response):
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Expires"] = 0
+    response.headers["Pragma"] = "no-cache"
+    return response
+
 # Check for environment variable
 if not os.getenv("DATABASE_URL"):
     raise RuntimeError("DATABASE_URL is not set")
@@ -59,16 +70,18 @@ def register():
             flash('Your account was created successfully!')
             return redirect("/")
 
+
 @app.route("/search", methods=["GET","POST"])
 def search():
     if request.method=="GET":
         return render_template("search.html")
-
     elif request.method=="POST":
         keyword = request.form.get("keyword")
         keyword="%"+keyword+"%"
         keyword=keyword.upper()
         radioOpt = request.form.get("inlineRadioOptions")
+        if keyword.strip("%")=="":
+            return "Empty KeyWord"
         if radioOpt=="option1":
             searchResults = db.execute("SELECT * FROM books WHERE UPPER(title) LIKE :title ORDER BY year DESC",{"title":keyword}).fetchall()
         elif radioOpt=="option2":
@@ -77,22 +90,34 @@ def search():
             searchResults = db.execute("SELECT * FROM books WHERE year = :year ORDER BY author ASC",{"year":int(keyword.strip('%'))}).fetchall()
         elif radioOpt=="option4":
             searchResults = db.execute("SELECT * FROM books WHERE isbn LIKE :isbn ORDER BY year DESC",{"isbn":keyword}).fetchall()
-
         return render_template("searchResult.html", searchResults=searchResults)
 
-@app.route("/search_result/<isbn>")
+
+@app.route("/search_result/<isbn>", methods=["GET","POST"])
 def bookDetails(isbn):
-    #create a connection
-    res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": goodreadsDevKey, "isbns": isbn})
-    if res is None:
-        return redirect(url_for('error'))
-    json_data=res.json()["books"][0]
-    book=db.execute("SELECT * FROM books WHERE isbn = :isbn ORDER BY year DESC",{"isbn":isbn}).fetchone()
-    #implement reviews
-
-    return render_template("book.html",book=book, json_data=json_data)
-
-
+    if request.method=="GET":
+        #create a connection
+        print("get received")
+        res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": goodreadsDevKey, "isbns": isbn})
+        if res is None:
+            return redirect(url_for('error'))
+        json_data=res.json()["books"][0]
+        book=db.execute("SELECT * FROM books WHERE isbn = :isbn ORDER BY year DESC",{"isbn":isbn}).fetchone()
+        revs=db.execute("SELECT * FROM reviews WHERE isbn=:isbn",{"isbn":isbn}).fetchall()
+        return render_template("book.html",book=book, json_data=json_data,revs=revs)
+    elif request.method=="POST":
+        print("post received")
+        review = request.form.get("review")
+        rating = request.form.get("inlineRadioOptions")
+        user=db.execute("SELECT * FROM users WHERE id=:id",{"id":session["u_id"]}).fetchone()
+        review_count=db.execute("SELECT COUNT(*) FROM reviews WHERE reviewer = :reviewer AND isbn=:isbn",{"reviewer":user.username,"isbn":isbn}).fetchall()
+        if len(review)!=0 and int(review_count[0][0])==0:
+            book=db.execute("SELECT * FROM books WHERE isbn = :isbn ORDER BY year DESC",{"isbn":isbn}).fetchone()
+            db.execute("INSERT INTO reviews (isbn,reviewer,review,rating) VALUES (:isbn,:reviewer,:review,:rating)",{"isbn":isbn,"reviewer":user.username,"review":review,"rating":rating})
+            db.commit()
+            return redirect(url_for("bookDetails",isbn=isbn))
+        else:
+            return "You have already posted"
 
 
 @app.route("/error")

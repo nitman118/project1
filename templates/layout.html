@@ -18,7 +18,7 @@
         <div class="navbar-nav ">
           {% if session.u_id %}
           <a class="nav-item nav-link" href="{{url_for('search')}}">Search</a>
-          <a class="nav-item nav-link" href="#">Log Out</a>
+          <a class="nav-item nav-link" href="{{url_for('login')}}">Log Out</a>
           {% else %}
           <a class="nav-item nav-link" href="/">Sign In</a>
           <a class="nav-item nav-link" href={{url_for('register')}}>Register</a>
