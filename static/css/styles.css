@@ -1,0 +1,34 @@
+/* Coolors Exported Palette - coolors.co/aa94a8-514f82-8580af-d2afd2-ffd9cb */
+/* HSL */
+/* RGB */
+* {
+  font-family: "Open Sans", sans-serif;
+}
+
+body {
+  background-color: #514f82;
+}
+
+.div-background {
+  background-color: #d2afd2;
+  border-radius: 15px;
+  padding: 20px;
+}
+
+h1 {
+  color: black;
+}
+
+h4, h3, h5 {
+  color: #514f82;
+}
+
+.div-head {
+  width: 100vw;
+}
+
+#register-login {
+  color: #bbb;
+}
+
+/*# sourceMappingURL=styles.css.map */

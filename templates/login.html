@@ -3,26 +3,58 @@
 Welcome
 {% endblock%}
 
-
+{% block styling%}
+body{
+background-image: url(/static/images/mountains-1412683_1280.png);
+background-repeat: no-repeat;
+background-size: 2000px;
+}
+{% endblock%}
 {% block body %}
-<div class="container border">
-  <form class="" action={{url_for('login')}} method="post">
-    <div class="form-row">
-      <div class="col">
-        <div class="form-group">
-          <label for="uid">Username</label>
-          <input type="text" class="form-control" id="uid" placeholder="Enter Username" name="username" value="" autofocus>
-        </div>
-      </div>
-      <div class="col">
-        <div class="form-group">
-          <label for="pass">Password</label>
-          <input type="password" class="form-control" id="pass" placeholder="Enter Password" name="password" value="">
-        </div>
-      </div>
+
+<div class="container border div-head mt-5">
+  <div class="row justify-content-end">
+    <div class="col-lg-6  border">
+      <h1>Welcome to Bookify!</h1>
+
+      <h4>You can search our database of 5,000 books, read reviews by readers like you, and add your own reviews</h4>
+      <br>
+      <h5>To get started, login or <span><a href="{{url_for('register')}}"><strong>register</strong></a></span>.</h5>
     </div>
-    <button type="submit" name="submit_login" class="btn btn-primary">Submit</button>
-  </form>
+  </div>
+</div>
+
+<div class="container border">
+  <div class="row justify-content-end">
+    <div class="col-lg-6 border">
+
+    </div>
+    <div class="col-lg-6 border div-background">
+
+      <form class="" action={{url_for('login')}} method="post">
+        <div class="form-">
+          <div class="col">
+            <div class="form-group">
+              <label for="uid">Username</label>
+              <input type="text" class="form-control" id="uid" placeholder="Enter Username" name="username" value=""
+                autofocus>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="pass">Password</label>
+              <input type="password" class="form-control" id="pass" placeholder="Enter Password" name="password"
+                value="">
+            </div>
+          </div>
+        </div>
+        <div class="border text-center mt-5 px-5">
+          <button type="submit" name="submit_login" class="btn btn-dark btn-block">Submit</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
 </div>
 
 {% endblock %}
