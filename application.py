@@ -1,7 +1,7 @@
 import os
 import requests
 
-from flask import Flask, session, render_template, request, flash, redirect, url_for, abort
+from flask import Flask, session, render_template, request, flash, redirect, url_for, abort, jsonify
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -58,6 +58,7 @@ def login():
             return "Invalid Credentials"
         else:
             session["u_id"] = row.id
+            session["name"] = row.username
             return redirect(url_for('search'))
     else:
         return redirect(url_for('search'))
@@ -150,8 +151,24 @@ def logout():
     session.clear()
     return redirect(url_for('login'))
 
+@app.route('/api/<isbn>')
+def api(isbn):
+    res = requests.get("https://www.goodreads.com/book/review_counts.json",
+                           params={"key": goodreadsDevKey, "isbns": isbn})
+    book = db.execute(
+                "SELECT * FROM books WHERE isbn = :isbn ORDER BY year DESC", {"isbn": isbn}).fetchone()
+    if res is None or book is None:
+        return redirect(url_for('error'))
+    else:
+        return jsonify(title=book.title,
+                        author=book.author,
+                        year=book.year,
+                        isbn=isbn,
+                        review_count=res.json()["books"][0]["work_ratings_count"],
+                        average_score=float(res.json()["books"][0]["average_rating"]))
 
 
-@app.route("/error")
+
+@app.route('/error')
 def error():
-    return abort(404)
+    return render_template('404.html'), 404
