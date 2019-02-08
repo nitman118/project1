@@ -15,21 +15,66 @@ $color4: rgba(210, 175, 210, 1);
 $color5: rgba(255, 217, 203, 1);
 $text-color:whitesmoke;
 
+
+$colorA:#CBBFBB;
+$colorB:#EABDA8;
+$colorC:#493843;
+$colorD:#61988E;
+
+
 *{
     font-family: 'Open Sans', sans-serif;
 }
 
+table{
+    margin: 10%;
+}
+
+th{
+    
+    background-color: $color2;
+    color: $text-color;
+}
+
+tr{
+    background-color: $text-color;
+    color: black;
+
+}
+
+
+
+
 body{
-    background-color:$color2;
+    background-color:$colorA;
+    background-image: url('../images/mountains-1412683_1280.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size:cover;
+    
 }
 
 .div-background{
-    background-color: $color4;
+    margin-top: 10%;
+    background-color: $color3;
+    border-radius: 15px;
+    padding: 20px;
+    color: $text-color;
+    
+}
+.div-background-login{
+    background-color: $color3;
     border-radius: 15px;
     padding: 20px;
     
 }
 
+.review-background{
+    background-color: $color5;
+    border-radius: 15px;
+    padding: 20px;
+    color: $text-color;
+}
 h1{
     color: black;
 }
@@ -37,6 +82,9 @@ h4,h3,h5{
     color:$color2;   
 }
 
+h6{
+    color:black;
+}
 .div-head{
 
 width: 100vw;
@@ -46,6 +94,19 @@ width: 100vw;
     color:#bbb;
 }
 
+#revSec{
+    background-color: $color3;
+    border-radius: 15px;
+    padding: 20px;
+    color: $text-color;
+}
+
+@media only screen and (max-width:1000px){
+#reviewHeading{
+    color: white;
+}
+
+}
 
 
 

@@ -6,9 +6,9 @@ Welcome
 
 
 {% block body %}
-<div class="container-fluid">
+<div class="container">
   <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-6 mt-5">
       <h1>{{book.title}}</h1>
       <h4>By {{book.author}}</h4>
       <h5>Publication Year: {{book.year}}</h5>
@@ -17,7 +17,7 @@ Welcome
       <p>This book was rated {{json_data["average_rating"]}} by {{json_data["work_ratings_count"]}} people on <a href="https://www.goodreads.com/">goodreads</a></p>
 
     </div>
-    <div class="col-lg-6">
+    <div id="revSec"class="col-lg-6 mt-5">
       <form action={{url_for('bookDetails', isbn=book.isbn)}} method="post">
         Your rating
         <div class="form-check form-check-inline">
@@ -44,7 +44,9 @@ Welcome
           <label for="exampleFormControlTextarea1">Your review</label>
           <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name="review"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary" name="button">Submit</button>
+        <div class="px-3">
+        <button type="submit" class="btn btn-dark btn-block" name="button">Submit</button>
+      </div>
       </form>
 
     </div>
@@ -52,12 +54,12 @@ Welcome
   </div>
 
   <div class="row">
-    <div class="col-lg-6">
-      <h4>Reviews</h4>
+    <div class="col-lg-12">
+      <h2 id="reviewHeading">Reviews</h4>
       {% for rev in revs %}
-      <div class="border-top py-3">
-        <p><strong>{{rev.reviewer}}</strong> rated this book {{rev.rating}}</p>
-        <p>{{rev.review}} </p>
+      <div class="border-top py-3 my-1 review-background">
+        <p><h4><span> <strong>{{rev.reviewer}}</strong> rated this book {{rev.rating}} star</span> </h4></p>
+        <p><h6>"{{rev.review}}"</h6></p>
       </div>
 
       {% else %}

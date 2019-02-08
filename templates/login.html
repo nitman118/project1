@@ -3,19 +3,19 @@
 Welcome
 {% endblock%}
 
-{% block styling%}
+{% block styling %}
 body{
-background-image: url(/static/images/mountains-1412683_1280.png);
+background-image: url({{url_for('static',filename='images/mountains-1412683_1280.png')}});
 background-repeat: no-repeat;
 background-size: 2000px;
 }
-{% endblock%}
+{% endblock %}
 {% block body %}
 
-<div class="container border div-head mt-5">
+<div class="container div-head mt-5">
   <div class="row justify-content-end">
-    <div class="col-lg-6  border">
-      <h1>Welcome to Bookify!</h1>
+    <div class="col-lg-6  ">
+      <h1>Welcome to flabo!</h1>
 
       <h4>You can search our database of 5,000 books, read reviews by readers like you, and add your own reviews</h4>
       <br>
@@ -24,31 +24,31 @@ background-size: 2000px;
   </div>
 </div>
 
-<div class="container border">
+<div class="container ">
   <div class="row justify-content-end">
-    <div class="col-lg-6 border">
+    <div class="col-lg-6 ">
 
     </div>
-    <div class="col-lg-6 border div-background">
+    <div class="col-lg-6 div-background-login">
 
       <form class="" action={{url_for('login')}} method="post">
         <div class="form-">
           <div class="col">
             <div class="form-group">
               <label for="uid">Username</label>
-              <input type="text" class="form-control" id="uid" placeholder="Enter Username" name="username" value=""
+              <input type="text" class="form-control" id="uid" placeholder="" name="username" value=""
                 autofocus>
             </div>
           </div>
           <div class="col">
             <div class="form-group">
               <label for="pass">Password</label>
-              <input type="password" class="form-control" id="pass" placeholder="Enter Password" name="password"
+              <input type="password" class="form-control" id="pass" placeholder="" name="password"
                 value="">
             </div>
           </div>
         </div>
-        <div class="border text-center mt-5 px-5">
+        <div class="text-center mt-5 px-5">
           <button type="submit" name="submit_login" class="btn btn-dark btn-block">Submit</button>
         </div>
       </form>

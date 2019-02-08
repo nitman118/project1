@@ -35,14 +35,17 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Set up database
+databaseUrl="postgres://enhvtpzlqaqthl:19b766690ad0a2ff730ce39aa5cb0f7015ef453c8abd87e43510a9b5259beaab@ec2-54-228-212-134.eu-west-1.compute.amazonaws.com:5432/dbe1fo6q2mmjcf"
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
+@app.route('/')
+def index():
+    return redirect(url_for('search'))
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    if request.method == "GET":
-        session.clear()
+    if request.method == "GET" and session.get('u_id') is None:
         return render_template("login.html")
     elif request.method == "POST":
         uname = request.form.get("username")
@@ -55,7 +58,9 @@ def login():
             return "Invalid Credentials"
         else:
             session["u_id"] = row.id
-            return render_template("search.html")
+            return redirect(url_for('search'))
+    else:
+        return redirect(url_for('search'))
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -97,7 +102,7 @@ def search():
                 "SELECT * FROM books WHERE UPPER(author) LIKE :author ORDER BY year DESC", {"author": keyword}).fetchall()
         elif radioOpt == "option3":
             searchResults = db.execute("SELECT * FROM books WHERE year = :year ORDER BY author ASC", {
-                                       "year": int(keyword.strip('%'))}).fetchall()
+                                       "year":int(keyword.strip('%')) if keyword.strip('%').isnumeric() else 1 }).fetchall()
         elif radioOpt == "option4":
             searchResults = db.execute(
                 "SELECT * FROM books WHERE isbn LIKE :isbn ORDER BY year DESC", {"isbn": keyword}).fetchall()
@@ -137,6 +142,14 @@ def bookDetails(isbn):
             return redirect(url_for("bookDetails", isbn=isbn))
         else:
             return "You have already posted"
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
+
 
 
 @app.route("/error")

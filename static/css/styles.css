@@ -5,14 +5,47 @@
   font-family: "Open Sans", sans-serif;
 }
 
-body {
+table {
+  margin: 10%;
+}
+
+th {
   background-color: #514f82;
+  color: whitesmoke;
+}
+
+tr {
+  background-color: whitesmoke;
+  color: black;
+}
+
+body {
+  background-color: #CBBFBB;
+  background-image: url("../images/mountains-1412683_1280.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 .div-background {
-  background-color: #d2afd2;
+  margin-top: 10%;
+  background-color: #8580af;
   border-radius: 15px;
   padding: 20px;
+  color: whitesmoke;
+}
+
+.div-background-login {
+  background-color: #8580af;
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.review-background {
+  background-color: #ffd9cb;
+  border-radius: 15px;
+  padding: 20px;
+  color: whitesmoke;
 }
 
 h1 {
@@ -23,12 +56,29 @@ h4, h3, h5 {
   color: #514f82;
 }
 
+h6 {
+  color: black;
+}
+
 .div-head {
   width: 100vw;
 }
 
 #register-login {
   color: #bbb;
+}
+
+#revSec {
+  background-color: #8580af;
+  border-radius: 15px;
+  padding: 20px;
+  color: whitesmoke;
+}
+
+@media only screen and (max-width: 1000px) {
+  #reviewHeading {
+    color: white;
+  }
 }
 
 /*# sourceMappingURL=styles.css.map */
